@@ -21,7 +21,7 @@ type FoodRepository interface {
 	Create(ctx context.Context, food models.Food) error
 	Change(ctx context.Context, food models.Food) error
 	Delete(ctx context.Context, ids []uuid.UUID) error
-	AddIngrediet(ctx context.Context, fi models.IngredientFood) error
+	AddIngredient(ctx context.Context, fi models.IngredientFood) error
 	DeleteIngredient(ctx context.Context, fi models.IngredientFood) error
 }
 
