@@ -9,21 +9,24 @@ import (
 type Ingredient struct {
 	ID     uuid.UUID
 	Name   string
-	Amount float64
 }
 
 func NewIngredient(name string, amount float64) Ingredient {
 	return Ingredient{
 		ID:     uuid.New(),
 		Name:   name,
-		Amount: amount,
 	}
+}
+
+type Cart struct {
+	Ingredients []Ingredient
 }
 
 type Nutrients struct {
 	Proteins float64
 	Fats     float64
 	Carbs    float64
+	Calories float64
 }
 
 type Food struct {
@@ -31,18 +34,16 @@ type Food struct {
 	Name            string
 	Ingredients     []Ingredient
 	Nutrients
-	Calories        float64
 	CookingDuration time.Duration
 }   
 
-func NewFood(name string, ingredients []Ingredient, nutrients Nutrients, 
-			 calories float64, cookingDuration time.Duration) Food {
+func NewFood(name string, ingredients []Ingredient, 
+	         nutrients Nutrients, cookingDuration time.Duration) Food {
 	return Food{
 		ID:              uuid.New(),
 		Name:            name,
 		Ingredients:     ingredients,
 		Nutrients:       nutrients,
-		Calories:        calories,
 		CookingDuration: cookingDuration,
 	}
 }
@@ -67,19 +68,23 @@ type Meal struct {
 	Foods       []Food
 	Ingredients []Ingredient
 	Nutrients
-	Calories    float64
 	CookingDuration time.Duration
 }
 
+func (m *Meal) CalculateNutrients() {
+}
+
+func (m *Meal) CalculateCookingDuration() {
+}
+
 func NewMeal(name string, foods []Food, ingredients []Ingredient,
-             nutrients Nutrients, calories float64, cookingDuration time.Duration) Meal {
+             nutrients Nutrients, cookingDuration time.Duration) Meal {
 	return Meal{
 		ID:              uuid.New(),
 		Name:            name,
 		Foods:           foods,
 		Ingredients:     ingredients,
 		Nutrients:       nutrients,
-		Calories:        calories,
 		CookingDuration: cookingDuration,
 	}	
 }
@@ -90,19 +95,43 @@ type Day struct {
 	Meals       []Meal
 	Ingredients []Ingredient
 	Nutrients
-	Calories    float64
 	CookingDuration time.Duration
 }
 
 func NewDay(date time.Time, meals []Meal, ingredients []Ingredient,
-			nutrients Nutrients, calories float64, cookingDuration time.Duration) Day {
+			nutrients Nutrients, cookingDuration time.Duration) Day {
 	return Day{
 		ID:              uuid.New(),
 		Date:            date,
 		Meals:           meals,
 		Ingredients:     ingredients,
 		Nutrients:       nutrients,
-		Calories:        calories,
 		CookingDuration: cookingDuration,
 	}
+}
+
+func (d *Day) CalculateNutrients() {
+}
+
+func (d *Day) CalculateCookingDuration() {
+}
+
+type IngredientFood struct {
+	IngredientID uuid.UUID
+	FoodID       uuid.UUID
+}
+
+type FoodCategory struct {
+	FoodID     uuid.UUID
+	CategoryID uuid.UUID
+}
+
+type FoodMeal struct {
+	FoodID uuid.UUID
+	MealID uuid.UUID
+}
+
+type MealDay struct {
+	MealID uuid.UUID
+	DayID  uuid.UUID
 }

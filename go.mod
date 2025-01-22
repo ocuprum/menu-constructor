@@ -1,4 +1,4 @@
-module github.com/ocuprum/menu-constructor.git
+module github.com/ocuprum/menu-constructor
 
 go 1.22.0
 
