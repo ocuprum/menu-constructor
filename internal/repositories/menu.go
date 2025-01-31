@@ -39,7 +39,7 @@ type MealRepository interface {
 	GetByID(ctx context.Context, id uuid.UUID) (models.Meal, error)
 	Paginate(ctx context.Context, limit, offset int) ([]models.Meal, error)
 	Create(ctx context.Context, category models.Meal) error
-	Change(ctx context.Context, id uuid.UUID, category models.Meal) error
+	Change(ctx context.Context, category models.Meal) error
 	Delete(ctx context.Context, ids []uuid.UUID) error
 	AddFood(ctx context.Context, fm models.FoodMeal) error
 	DeleteFood(ctx context.Context, fm models.FoodMeal) error
