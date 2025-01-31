@@ -23,10 +23,10 @@ type Cart struct {
 }
 
 type Nutrients struct {
-	Proteins float64
-	Fats     float64
-	Carbs    float64
-	Calories float64
+	Proteins float64 `json:"proteins"`
+	Fats     float64 `json:"fats"`
+	Carbs    float64 `json:"carbs"`
+	Calories float64 `json:"calories"`
 }
 
 func (n Nutrients) Add(addition Nutrients) Nutrients {
@@ -47,11 +47,11 @@ type CookDuration interface {
 }
 
 type Food struct {
-	ID              uuid.UUID
-	Name            string
-	Ingredients     []Ingredient
+	ID              uuid.UUID     `json:"id"`
+	Name            string        `json:"name"`
+	Ingredients     []Ingredient  `json:"ingredients" gorm:"-"`
 	Nutrients
-	CookingDuration time.Duration
+	CookingDuration time.Duration `json:"cooking_duration"`
 }   
 
 func (f *Food) CalcNutrients() Nutrients {
@@ -91,7 +91,6 @@ type Meal struct {
 	ID          uuid.UUID
 	Name        string
 	Foods       []Food
-	Ingredients []Ingredient
 }
 
 func (m *Meal) CalcNutrients() Nutrients {
@@ -112,12 +111,11 @@ func (m *Meal) CalcCookingDuration() time.Duration {
 	return cd
 }
 
-func NewMeal(name string, foods []Food, ingredients []Ingredient) Meal {
+func NewMeal(name string, foods []Food) Meal {
 	return Meal{
 		ID:              uuid.New(),
 		Name:            name,
 		Foods:           foods,
-		Ingredients:     ingredients,
 	}	
 }
 
@@ -125,15 +123,13 @@ type Day struct {
 	ID          uuid.UUID
 	Date        time.Time
 	Meals       []Meal
-	Ingredients []Ingredient
 }
 
-func NewDay(date time.Time, meals []Meal, ingredients []Ingredient) Day {
+func NewDay(date time.Time, meals []Meal) Day {
 	return Day{
 		ID:              uuid.New(),
 		Date:            date,
 		Meals:           meals,
-		Ingredients:     ingredients,
 	}
 }
 
@@ -156,8 +152,12 @@ func (d *Day) CalcCookingDuration() time.Duration {
 }
 
 type IngredientFood struct {
-	IngredientID uuid.UUID
-	FoodID       uuid.UUID
+	IngredientID uuid.UUID `json:"ingredient_id"`
+	FoodID       uuid.UUID `json:"food_id"`
+}
+
+func (IngredientFood) TableName() string {
+	return "ingredient_food"
 }
 
 type FoodCategory struct {
@@ -165,12 +165,24 @@ type FoodCategory struct {
 	CategoryID uuid.UUID
 }
 
+func (FoodCategory) TableName() string {
+	return "food_category"
+}
+
 type FoodMeal struct {
 	FoodID uuid.UUID
 	MealID uuid.UUID
 }
 
+func (FoodMeal) TableName() string {
+	return "food_meal"
+}
+
 type MealDay struct {
 	MealID uuid.UUID
 	DayID  uuid.UUID
+}
+
+func (MealDay) TableName() string {
+	return "meal_day"
 }
