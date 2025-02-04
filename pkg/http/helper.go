@@ -13,6 +13,14 @@ func PostPath(path string) string {
 	return "POST " + path
 }
 
+func PutPath(path string) string {
+	return "PUT " + path
+}
+
+func DeletePath(path string) string {
+	return "DELETE " + path
+}
+
 func WriteResponse(resp http.ResponseWriter, statusCode int, explanations ...string) {
 	resp.WriteHeader(statusCode)
 	resp.Write([]byte(http.StatusText(statusCode)))

@@ -20,8 +20,8 @@ func NewFoodHandler(svc *services.FoodService) *FoodHandler {
 }
 
 func (h *FoodHandler) Register(mux *http.ServeMux) {
-	mux.HandleFunc("/addfi", h.addIngredient)
-	mux.HandleFunc("/createfood", h.create)
+	mux.HandleFunc("/food/ingredients/add", h.addIngredient)
+	mux.HandleFunc("/food/create", h.create)
 }
 
 func (h *FoodHandler) create(resp http.ResponseWriter, req *http.Request) {

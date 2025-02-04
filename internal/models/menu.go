@@ -7,8 +7,8 @@ import (
 )
 
 type Ingredient struct {
-	ID     uuid.UUID
-	Name   string
+	ID     uuid.UUID `json:"id"`
+	Name   string    `json:"name"`
 }
 
 func NewIngredient(name string, amount float64) Ingredient {
