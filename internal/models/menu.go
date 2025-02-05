@@ -74,9 +74,9 @@ func NewFood(name string, ingredients []Ingredient,
 }
 
 type Category struct {
-	ID    uuid.UUID
-	Name  string
-	Foods []Food
+	ID    uuid.UUID `json:"id"`
+	Name  string    `json:"name"`
+	Foods []Food    `json:"foods" gorm:"-"`
 }
 
 func NewCategory(name string, foods []Food) Category {
@@ -88,9 +88,9 @@ func NewCategory(name string, foods []Food) Category {
 }
 
 type Meal struct {
-	ID          uuid.UUID
-	Name        string
-	Foods       []Food
+	ID          uuid.UUID `json:"id"`
+	Name        string    `json:"name"`
+	Foods       []Food    `json:"foods" gorm:"-"`
 }
 
 func (m *Meal) CalcNutrients() Nutrients {
@@ -120,9 +120,9 @@ func NewMeal(name string, foods []Food) Meal {
 }
 
 type Day struct {
-	ID          uuid.UUID
-	Date        time.Time
-	Meals       []Meal
+	ID          uuid.UUID `json:"id"`
+	Date        time.Time `json:"date"`
+	Meals       []Meal    `json:"meals" gorm:"-"`
 }
 
 func NewDay(date time.Time, meals []Meal) Day {
@@ -161,8 +161,8 @@ func (IngredientFood) TableName() string {
 }
 
 type FoodCategory struct {
-	FoodID     uuid.UUID
-	CategoryID uuid.UUID
+	FoodID     uuid.UUID `json:"food_id"`
+	CategoryID uuid.UUID `json:"category_id"`
 }
 
 func (FoodCategory) TableName() string {
@@ -170,8 +170,8 @@ func (FoodCategory) TableName() string {
 }
 
 type FoodMeal struct {
-	FoodID uuid.UUID
-	MealID uuid.UUID
+	FoodID uuid.UUID `json:"food_id"`
+	MealID uuid.UUID `json:"meal_id"`
 }
 
 func (FoodMeal) TableName() string {
@@ -179,8 +179,8 @@ func (FoodMeal) TableName() string {
 }
 
 type MealDay struct {
-	MealID uuid.UUID
-	DayID  uuid.UUID
+	MealID uuid.UUID `json:"meal_id"`
+	DayID  uuid.UUID `json:"day_id"`
 }
 
 func (MealDay) TableName() string {

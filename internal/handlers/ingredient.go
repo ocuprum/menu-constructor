@@ -22,10 +22,10 @@ func NewIngredientHandler(svc *services.IngredientService) *IngredientHandler {
 }
 
 func (h *IngredientHandler) Register(mux *http.ServeMux) {
-	mux.HandleFunc(pkgHTTP.GetPath("/ingredients/{id}"), h.getByID)
+	mux.HandleFunc(pkgHTTP.GetPath("/ingredient/{id}"), h.getByID)
 	mux.HandleFunc(pkgHTTP.GetPath("/ingredients/paginate"), h.paginate)
-	mux.HandleFunc(pkgHTTP.PostPath("/ingredients/create"), h.create)
-	mux.HandleFunc(pkgHTTP.PutPath("/ingredients/change"), h.change)
+	mux.HandleFunc(pkgHTTP.PostPath("/ingredient/create"), h.create)
+	mux.HandleFunc(pkgHTTP.PutPath("/ingredient/change"), h.change)
 	mux.HandleFunc(pkgHTTP.DeletePath("/ingredients/delete"), h.delete)
 }
 
@@ -96,13 +96,13 @@ func (h *IngredientHandler) create(resp http.ResponseWriter, req *http.Request) 
 		return
 	}
 	
-	ingred := models.Ingredient{}
-	if err = json.Unmarshal(body, &ingred); err != nil {
+	ingredient := models.Ingredient{}
+	if err = json.Unmarshal(body, &ingredient); err != nil {
 		pkgHTTP.WriteResponse(resp, http.StatusBadRequest, "Error unmarshalling the json")
 		return
 	}
 
-	if err = h.svc.Create(req.Context(), ingred); err != nil {
+	if err = h.svc.Create(req.Context(), ingredient); err != nil {
 		pkgHTTP.WriteResponse(resp, http.StatusInternalServerError, "Error creating ingredient")
 		return
 	}
@@ -114,13 +114,13 @@ func (h *IngredientHandler) change(resp http.ResponseWriter, req *http.Request) 
 		pkgHTTP.WriteResponse(resp, http.StatusBadRequest, "Error reading the request body")
 	}
 
-	ingred := models.Ingredient{}
-	if err = json.Unmarshal(body, &ingred); err != nil {
+	ingredient := models.Ingredient{}
+	if err = json.Unmarshal(body, &ingredient); err != nil {
 		pkgHTTP.WriteResponse(resp, http.StatusBadRequest, "Error unmarshalling the json")
 		return
 	}
 
-	if err = h.svc.Change(req.Context(), ingred); err != nil {
+	if err = h.svc.Change(req.Context(), ingredient); err != nil {
 		pkgHTTP.WriteResponse(resp, http.StatusInternalServerError, "Error changing the ingredient")
 	}
 }

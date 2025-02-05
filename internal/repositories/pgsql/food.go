@@ -56,5 +56,7 @@ func (r *FoodRepository) AddIngredient(ctx context.Context, fi models.Ingredient
 }
 
 func (r *FoodRepository) DeleteIngredient(ctx context.Context, fi models.IngredientFood) error {
-	return r.conn.WithContext(ctx).Delete(&fi).Error
+	return r.conn.WithContext(ctx).
+			Where("food_id = ? AND ingredient_id = ?", fi.FoodID, fi.IngredientID).
+			Delete(&models.IngredientFood{}).Error
 }
