@@ -40,9 +40,17 @@ func main() {
 	ingredSvc := services.NewIngredientService(ingredRep)
 	ingredHandler := handlers.NewIngredientHandler(ingredSvc)
 
-	
+	categRep := repPgSQL.NewCategoryRepository(db)
+	categSvc := services.NewCategoryService(categRep)
+	categHandler := handlers.NewCategoryHandler(categSvc)
+
+	mealRep := repPgSQL.NewMealRepository(db)
+	mealSvc := services.NewMealService(mealRep)
+	mealHandler := handlers.NewMealHandler(mealSvc)
+
 	// Creating new server and starting to listen
-	srv := http.NewServer(conf.HTTP, foodHandler, ingredHandler)
+	srv := http.NewServer(conf.HTTP, foodHandler, ingredHandler, categHandler,
+								 	 mealHandler)
 	
 	log.Printf("We are starting on %v", srv.Addr)
 	

@@ -105,7 +105,7 @@ func (h *FoodHandler) create(resp http.ResponseWriter, req *http.Request) {
 	}
 
 	if err = h.svc.Create(req.Context(), food); err != nil {
-		pkgHTTP.WriteResponse(resp, http.StatusInternalServerError, "Error creating ingredient")
+		pkgHTTP.WriteResponse(resp, http.StatusInternalServerError, "Error creating food")
 		return
 	}
 }
